@@ -1,0 +1,139 @@
+<div class="main">
+  <div>
+    <h1>Listado de configuración de horarios para el pico y placa.</h1>
+
+    <div>
+      <form
+        class="login-form"
+        [formGroup]="circulacionForm"
+        (ngSubmit)="onClickConsultarCirculacion()"
+      >
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Consultar circulación</mat-card-title>
+            <mat-card-subtitle
+              >¿Puede mi auto circular en una fecha seleccionada?
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p>
+              <mat-form-field class="login-full-width" appearance="fill">
+                <mat-label>Placa</mat-label>
+
+                <input
+                  type="text"
+                  matInput
+                  formControlName="placa"
+                  [errorStateMatcher]="matcher"
+                  placeholder="Número de placa"
+                />
+
+                <mat-hint>Ingrese el número de placa.</mat-hint>
+
+                <mat-error
+                  *ngIf="
+                    registerFormControl['placa'].errors &&
+                    registerFormControl['placa'].errors['required']
+                  "
+                >
+                  El número de placa es obligatorio.
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field>
+                <input
+                  matInput
+                  [min]="fechaMinima"
+                  [ngxMatDatetimePicker]="picker"
+                  placeholder="Seleccione una fecha"
+                  formControlName="fecha"
+                />
+                <mat-hint>DD/MM/YYYY HH:mm</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker [showSpinners]="true">
+                </ngx-mat-datetime-picker>
+                <mat-error
+                  *ngIf="
+                    registerFormControl['fecha'].errors &&
+                    registerFormControl['fecha'].errors['required']
+                  "
+                >
+                  La fecha es obligatoria.
+                </mat-error>
+              </mat-form-field>
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="btn-login">
+            <div class="btn-login">
+              <button mat-raised-button type="submit" color="primary">
+                Consultar
+              </button>
+            </div>
+          </mat-card-actions>
+          <mat-card-footer class="mensaje-error">
+            <div class="center">
+              <p>{{ errorMsg }}</p>
+            </div>
+            <mat-progress-bar
+              *ngIf="isLoading"
+              mode="indeterminate"
+            ></mat-progress-bar>
+          </mat-card-footer>
+        </mat-card>
+      </form>
+    </div>
+
+    <div
+      *ngIf="configuracion != undefined || configuracion != null"
+      class="configuracion"
+    >
+      <h1>
+        Usted
+        <strong> {{ configuracion.puedeCircular ? "si" : "no" }} </strong> puede
+        circular libremente.
+      </h1>
+      <div>
+        <div *ngIf="configuracion.autoTo.id == null">
+          El auto con la placa ingresada no se encuentra registrado
+        </div>
+        <div *ngIf="configuracion.autoTo.id != null">
+          La información del auto es:
+          <mat-card>
+            <mat-card-content>
+              <p>Placa: {{ configuracion.autoTo.placa }}</p>
+              <p>Modelo: {{ configuracion.autoTo.modelo }}</p>
+              <p>Chasis: {{ configuracion.autoTo.chasis }}</p>
+              <p>Color: {{ configuracion.autoTo.color }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <br />
+        <div *ngIf="configuracion.configuracion.length > 0">
+          <p>
+            La restricciones de pico y placa para el día
+            {{ configuracion.configuracion[0].diaSemana }} son:
+          </p>
+          <mat-card *ngFor="let item of configuracion.configuracion">
+            <mat-card-content>
+              <p>Hora de inicio: {{ item.horaInicio }}</p>
+              <p>Hora de fin: {{ item.horaFin }}</p>
+              <p>
+                Restricciones último dígito: {{ item.resticcionUltimoDigito }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="configuracion.configuracion.length == 0">
+          No existe registrado una configuración para el pico y placa,
+          registrelo desde el Administrador.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

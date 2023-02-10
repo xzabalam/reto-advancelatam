@@ -1,0 +1,196 @@
+<div class="main">
+  <div>
+    <h1>Listado de configuración de horarios para el pico y placa.</h1>
+
+    <div *ngIf="!mostrarRegistro">
+      <div class="boton-add">
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="onClickNuevaConfiguracion()"
+        >
+          Añadir configuración
+        </button>
+      </div>
+
+      <table mat-table [dataSource]="listadoHorarios" class="mat-elevation-z8">
+        <!-- Placa Column -->
+        <ng-container matColumnDef="diaSemana">
+          <th mat-header-cell *matHeaderCellDef>Día semana</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.diaSemana }}
+          </td>
+        </ng-container>
+
+        <!-- horaInicio Column -->
+        <ng-container matColumnDef="horaInicio">
+          <th mat-header-cell *matHeaderCellDef>Hora inicio</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.horaInicio }}
+          </td>
+        </ng-container>
+
+        <!-- horaFin Column -->
+        <ng-container matColumnDef="horaFin">
+          <th mat-header-cell *matHeaderCellDef>Hora Fin</th>
+          <td mat-cell *matCellDef="let element">{{ element.horaFin }}</td>
+        </ng-container>
+
+        <!-- resticcionUltimoDigito Column -->
+        <ng-container matColumnDef="resticcionUltimoDigito">
+          <th mat-header-cell *matHeaderCellDef>Placas con restricción</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.resticcionUltimoDigito }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div *ngIf="mostrarRegistro">
+      <form
+        class="login-form"
+        [formGroup]="horariosForm"
+        (ngSubmit)="onClickGuardarConfiguracion()"
+      >
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Registrar configuración</mat-card-title>
+            <mat-card-subtitle
+              >Horarios para el pico y placa
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p>
+              <mat-form-field class="login-full-width" appearance="fill">
+                <mat-label>Días de la semana.</mat-label>
+                <mat-select formControlName="diaSemana">
+                  <mat-option
+                    *ngFor="let dias of listadoDiasSemana"
+                    [value]="dias"
+                  >
+                    {{ dias }}
+                  </mat-option>
+                </mat-select>
+
+                <mat-hint>Seleccione el día de la semana.</mat-hint>
+
+                <mat-error
+                  *ngIf="
+                    registerFormControl['diaSemana'].errors &&
+                    registerFormControl['diaSemana'].errors['required']
+                  "
+                >
+                  El día de la semana es obligatorio.
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field class="login-full-width">
+                <mat-label>Hora de inicio</mat-label>
+
+                <mat-select formControlName="horaInicio">
+                  <mat-option *ngFor="let hora of horas" [value]="hora">
+                    {{ hora }}
+                  </mat-option>
+                </mat-select>
+
+                <mat-hint>Ingrese la hora de inicio.</mat-hint>
+
+                <mat-error
+                  *ngIf="
+                    registerFormControl['horaInicio'].errors &&
+                    registerFormControl['horaInicio'].errors['required']
+                  "
+                >
+                  La hora de inicio es obligatorio.
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field class="login-full-width">
+                <mat-label>Hora de fin</mat-label>
+
+                <mat-select formControlName="horaFin">
+                  <mat-option *ngFor="let hora of horas" [value]="hora">
+                    {{ hora }}
+                  </mat-option>
+                </mat-select>
+
+                <mat-hint>Ingrese la hora de fin.</mat-hint>
+
+                <mat-error
+                  *ngIf="
+                    registerFormControl['horaFin'].errors &&
+                    registerFormControl['horaFin'].errors['required']
+                  "
+                >
+                  La hora de fin es obligatoria.
+                </mat-error>
+              </mat-form-field>
+            </p>
+
+            <p>
+              <mat-form-field class="login-full-width">
+                <mat-label>Placas a restingir</mat-label>
+
+                <mat-select formControlName="resticcionUltimoDigito" multiple>
+                  <mat-option
+                    *ngFor="let placa of listadoPlacas"
+                    [value]="placa"
+                  >
+                    {{ placa }}
+                  </mat-option>
+                </mat-select>
+
+                <mat-hint>Ingrese la hora de fin.</mat-hint>
+
+                <mat-error
+                  *ngIf="
+                    registerFormControl['resticcionUltimoDigito'].errors &&
+                    registerFormControl['resticcionUltimoDigito'].errors[
+                      'required'
+                    ]
+                  "
+                >
+                  Debe seleccionar las placas a restringir.
+                </mat-error>
+              </mat-form-field>
+            </p>
+          </mat-card-content>
+          <mat-card-actions class="btn-login">
+            <div class="btn-login">
+              <button mat-raised-button type="submit" color="primary">
+                Guardar configuración
+              </button>
+
+              <button
+                mat-raised-button
+                type="submit"
+                color="secondary"
+                (click)="onClickCancelarRegistro()"
+              >
+                Cancelar
+              </button>
+            </div>
+          </mat-card-actions>
+          <mat-card-footer class="mensaje-error">
+            <div class="center">
+              <p>{{ errorMsg }}</p>
+            </div>
+            <mat-progress-bar
+              *ngIf="isLoading"
+              mode="indeterminate"
+            ></mat-progress-bar>
+          </mat-card-footer>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

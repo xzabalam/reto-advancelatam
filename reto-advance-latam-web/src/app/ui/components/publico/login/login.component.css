@@ -1,0 +1,68 @@
+.parent {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+
+.div1 {
+  grid-area: 1 / 1 / 2 / 2;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+}
+
+.div2 {
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: gainsboro;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+}
+
+.login {
+  text-align: center;
+  padding: 1pc;
+  background: linear-gradient(360deg, black, transparent);
+}
+
+.btn-login,
+.center {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+.center {
+  padding: 20px;
+}
+
+.center p {
+  text-align: center;
+}
+
+.login-full-width {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+}

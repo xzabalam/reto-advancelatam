@@ -1,0 +1,65 @@
+<ngx-loading-bar
+  color="#FFFFFF"
+  [includeSpinner]="false"
+  height="4px"
+></ngx-loading-bar>
+<ng-container>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Pico - Placa - Administración </span>
+
+      <span class="spacer"></span>
+
+      <span *ngIf="datosUsuarioDto != null">{{
+        datosUsuarioDto.username
+      }}</span>
+
+      <button
+        *ngIf="datosUsuarioDto != null"
+        (click)="logout()"
+        matTooltip="Cerrar sesión"
+        matTooltipPosition="left"
+        mat-icon-button
+        aria-label="Cerrar sesión"
+      >
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="contenedor">
+    <mat-sidenav opened="true" disableClose="true" mode="side">
+      <mat-nav-list>
+        <h1>Menú de opciones</h1>
+
+        <p><strong>Administración</strong></p>
+
+        <div class="sidenav-item">
+          <a mat-list-item [routerLink]="['/usuarios']">Usuarios</a>
+        </div>
+        <div class="sidenav-item">
+          <a mat-list-item [routerLink]="['/horarios']"
+            >Horarios para el pico y placa</a
+          >
+        </div>
+
+        <br />
+        <p><strong>Acceso Libre</strong></p>
+
+        <div class="sidenav-item">
+          <a mat-list-item [routerLink]="['/registro']">Registro de autos</a>
+        </div>
+        <div class="sidenav-item">
+          <a mat-list-item [routerLink]="['/circulacion']"
+            >Comprobación de circulación</a
+          >
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar color="primary">AdvanceLatam (C)</mat-toolbar>
+</ng-container>

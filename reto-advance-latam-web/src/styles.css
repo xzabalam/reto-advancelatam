@@ -1,0 +1,13 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.mensaje-error {
+  display: flex;
+  color: red;
+  padding: 20px 20px 0px 20px;
+}

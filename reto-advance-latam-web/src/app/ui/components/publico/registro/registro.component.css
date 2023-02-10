@@ -1,0 +1,25 @@
+.main {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  padding: 20px;
+}
+
+.login-full-width {
+  width: 300px;
+}
+
+.listadoAutos {
+  padding: 20px;
+  width: 100%;
+}
+
+.registoAutos {
+  padding: 20px;
+  width: 100%;
+}
+
+.boton-add {
+  padding: 20px;
+  display: flex;
+  justify-content: right;
+}
